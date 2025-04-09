@@ -1,6 +1,6 @@
 <template>
     <div class="component-background slds-p-around_medium">
-        <lightning-record-edit-form object-api-name="Contact" onsuccess={onSuccess} onerror={onError} onsubmit={onSubmit}>
+        <lightning-record-edit-form object-api-name="ozbeellc__Work_Performed__c" onsuccess={onSuccess} onerror={onError} onsubmit={onSubmit}>
 
             <!-- cancel and submit buttons-->
             <lightning-layout horizontal-align="spread" class="slds-var-p-horizontal_xx-small">
@@ -20,8 +20,8 @@
             <lightning-messages></lightning-messages>
 
             <!-- input fields -->
-            <lightning-input-field field-name={nameField} value={initialValue}></lightning-input-field>
-            <lightning-input-field field-name={titleField} value={initialValue}></lightning-input-field>
+            <lightning-input-field field-name=ozbeellc__Location__c value={initialValue}></lightning-input-field>
+            <lightning-input-field field-name=ozbeellc__Quantity__c value={initialValue}></lightning-input-field>
             <lightning-input-field field-name={phoneField} value={initialValue}></lightning-input-field>
             <lightning-input-field field-name={emailField} value={initialValue}></lightning-input-field>
             <lightning-input-field field-name={mobileField} value={initialValue}></lightning-input-field>
@@ -33,9 +33,9 @@
             https://help.salesforce.com/s/articleView?id=release-notes.rn_lwc_components.htm&release=246&type=5
             -->
             <lightning-record-picker
-                label="Account"
-                placeholder="Search Accounts..."
-                object-api-name="Account"
+                label="Deficiency"
+                placeholder="Search Deficiencies..."
+                object-api-name="ozbeellc__Deficiency__c"
                 value={initialValue}
                 onchange={handleChange}
             >

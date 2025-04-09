@@ -1,0 +1,55 @@
+<template>
+     <!--HEADER-->
+    <div class="slds-modal__header slds-text-heading_large">
+        Add Work Records
+    </div>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <td>
+                        <lightning-button-icon icon-name="utility:add" title="Add New Work Record" 
+                        class="slds-m-right_xx-small" onclick={addNewClickHandler}></lightning-button-icon>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <template for:each={work} for:item="work">
+                    <tr key={work.tempId}>
+                <td>
+                    <lightning-combobox
+                        label="Type"
+                        placeholder="Select Type"
+                        options={getTypePicklistValues}
+                        onchange={handleChange}
+                        ></lightning-combobox>
+                </td>
+                <td>
+                    <lightning-input label="Location" placeholder="Roof Location"></lightning-input>
+                </td>
+                <td>
+                    <lightning-record-picker
+                        label="Deficiency"
+                        placeholder="Search Deficiencies..."
+                        object-api-name="ozbeellc__Deficiency__c"
+                        value={initialValue}
+                        onchange={handleChange}
+                    >
+                    </lightning-record-picker>
+                </td>
+                <td>
+                    <lightning-input label="Quantity" placeholder="Quantity"></lightning-input>
+                </td>
+                <td>
+                    <lightning-button-icon icon-name="utility:delete" title="Delete Work Record" class="slds-m-left_xx-small"></lightning-button-icon>
+                </td>
+               </tr>
+            </template>
+            </tbody>
+        </table>
+    </div>
+    <!--FOOTER-->
+    <div class="slds-modal__footer slds-text-align_right">
+   <lightning-button label="Add Work Records" variant="brand"></lightning-button>
+    </div>
+</template>
