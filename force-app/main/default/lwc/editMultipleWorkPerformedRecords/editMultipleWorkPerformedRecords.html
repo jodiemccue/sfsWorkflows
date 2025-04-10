@@ -1,0 +1,43 @@
+<template>
+    <div class="component-background">
+        <lightning-card>
+            <div class="slds-m-around_medium">
+                <lightning-layout horizontal-align="spread" class="slds-var-p-horizontal_xx-small">
+                    <lightning-layout-item>
+                        <lightning-button variant="base" data-id="cancel" label="Cancel" type="button" onclick={dismiss}
+                            class="button"></lightning-button>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item data-id="header" class="slds-align_absolute-center">
+                        <h2>Mass Edit Work Records</h2>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item>
+                        <lightning-button variant="base" data-id="submit" label="Save All" type="submit"
+                            onclick={handleMassUpdate}
+                            class="button-primary"></lightning-button>
+                    </lightning-layout-item>
+                </lightning-layout>
+
+                <!-- show any error messages or alerts -->
+                <lightning-messages></lightning-messages>
+
+                <!-- iterate through work records and create edit forms for each -->
+                <template for:each={workRecords} for:item="workRecord">
+                    <lightning-record-edit-form key={workRecord.id} object-api-name="Work_Record__c" record-id={workRecord.id} onsuccess={onSuccess}>
+                        <div class="slds-var-p-horizontal_small slds-var-p-bottom_medium">
+
+                            <!-- Work Record Fields -->
+                            <lightning-input-field field-name="	Status__c" value={workRecord.Status__c}></lightning-input-field>
+                            <lightning-input-field field-name="Type__c" value={workRecord.Type__c}></lightning-input-field>
+                            <lightning-input-field field-name="ozbeellc__Location__c" value={workRecord.ozbeellc__Location__c}></lightning-input-field>
+                            <lightning-input-field field-name="ozbeellc__Quantity__c" value={workRecord.ozbeellc__Quantity__c}></lightning-input-field>
+                            <lightning-input-field field-name="ozbeellc__Deficiency__c" value={workRecord.ozbeellc__Deficiency__c}></lightning-input-field>
+                            
+                        </div>
+                    </lightning-record-edit-form>
+                </template>
+            </div>
+        </lightning-card>
+    </div>
+</template>
