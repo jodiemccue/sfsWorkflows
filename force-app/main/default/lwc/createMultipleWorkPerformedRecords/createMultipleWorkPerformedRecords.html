@@ -1,0 +1,97 @@
+<template>
+    <!--HEADER-->
+   <div class="slds-modal__header slds-text-heading_large">
+       Add Work Records
+   </div>
+   <div>
+       <table>
+           <thead>
+               <tr>
+                   <td>Type <span class ="slds-text-color_destructive">*</span></td>
+                   <td>Location <span class ="slds-text-color_destructive">*</span></td>
+                   <td>Quantity <span class ="slds-text-color_destructive">*</span></td>
+                   <td>Deficiency <span class ="slds-text-color_destructive">*</span></td>
+                   <td>
+                       <lightning-button-icon icon-name="utility:add" title="Add New Work Record" 
+                       class="slds-m-left_xx-small" onclick={addRow}></lightning-button-icon>
+                   </td>
+               </tr>
+           </thead>
+           <tbody>
+            <template for:each={work} for:item="workRow">
+                <tr key={workRow.tempId}>
+                    <td>
+                    <!-- Type -->
+                        <lightning-combobox
+                            name="Type__c"
+                            label="Type"
+                            variant="label-hidden"
+                            data-temp-id={workRow.tempId}
+                            data-field="Type__c"
+                            options={typeOptions}
+                            onchange={elementChangeHandler}
+                            required>
+                        </lightning-combobox>
+                    </td>
+                    <td>
+                    <!-- Location -->
+                        <lightning-input
+                            name="ozbeellc__Location__c"
+                            label="Location"
+                            variant="label-hidden"
+                            data-temp-id={workRow.tempId}
+                            data-field="ozbeellc__Location__c"
+                            onchange={elementChangeHandler}
+                            required>
+                        </lightning-input>
+                    </td>
+                    <td>
+                    <!-- Quantity -->
+                        <lightning-input
+                            name="ozbeellc__Quantity__c"
+                            label="Quantity"
+                            variant="label-hidden"
+                            type="number"
+                            data-temp-id={workRow.tempId}
+                            data-field="ozbeellc__Quantity__c"
+                            onchange={elementChangeHandler}
+                            required>
+                        </lightning-input>
+                    </td>
+                    <td>
+                    <!-- Deficiency -->
+                        <lightning-record-picker
+                            object-api-name="ozbeellc__Deficiency__c"
+                            label="Deficiency"
+                            variant="label-hidden"
+                            display-info={displayInfo}
+                            matching-info={matchingInfo}
+                            value={workRow.ozbeellc__Deficiency__c}
+                            placeholder="Search Deficiencies..."
+                            onchange={elementChangeHandler}
+                            data-temp-id={workRow.tempId}
+                            data-field="ozbeellc__Deficiency__c"
+                            required>
+                        </lightning-record-picker>
+                    </td>
+                    <td>
+                    <!-- Delete Button -->
+                        <lightning-button-icon
+                            icon-name="utility:delete"
+                            alternative-text="Delete"
+                            data-temp-id={workRow.tempId}
+                            onclick={deleteRow}
+                            class="slds-m-left_x-small"
+                            title="Delete row">
+                        </lightning-button-icon>
+                    </td>
+                </tr>
+            </template>
+            </tbody>
+        </table>
+    </div>
+    <!--FOOTER-->
+    <div class="slds-modal__footer slds-text-align_right">
+   <lightning-button label="Save" variant="brand" onclick={submitClickHandler}></lightning-button>
+    </div>
+</template>
