@@ -1,69 +1,69 @@
 <template>
-    <!--HEADER-->
-   <div class="slds-modal__header slds-text-heading_large">
-       Add Work Records
-   </div>
-   <div>
-       <table>
-           <thead>
-               <tr>
-                   <td>Type <span class ="slds-text-color_destructive">*</span></td>
-                   <td>Location <span class ="slds-text-color_destructive">*</span></td>
-                   <td>Quantity <span class ="slds-text-color_destructive">*</span></td>
-                   <td>Deficiency <span class ="slds-text-color_destructive">*</span></td>
-                   <td>
-                       <lightning-button-icon icon-name="utility:add" title="Add New Work Record" 
-                       class="slds-m-left_xx-small" onclick={addRow}></lightning-button-icon>
-                   </td>
-               </tr>
-           </thead>
-           <tbody>
-            <template for:each={work} for:item="workRow">
-                <tr key={workRow.tempId}>
-                    <td>
+    <!-- HEADER -->
+    <div class="slds-modal__header slds-text-heading_large">
+        Add Work Records
+    </div>
+    <!-- BODY -->
+    <div class="slds-p-around_medium">
+        <template for:each={work} for:item="workRow">
+            <div key={workRow.tempId} class="slds-box slds-m-bottom_medium slds-theme_default">
+
+                <!-- Row of Inputs, Each One Takes Full Width on Mobile -->
+                <div class="slds-grid slds-wrap slds-gutters">
                     <!-- Type -->
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                         <lightning-combobox
                             name="Type__c"
-                            label="Type"
-                            variant="label-hidden"
+                            label="Type *"
                             data-temp-id={workRow.tempId}
                             data-field="Type__c"
                             options={typeOptions}
                             onchange={elementChangeHandler}
                             required>
                         </lightning-combobox>
-                    </td>
-                    <td>
+                    </div>
                     <!-- Location -->
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                         <lightning-input
                             name="ozbeellc__Location__c"
-                            label="Location"
-                            variant="label-hidden"
+                            label="Location *"
                             data-temp-id={workRow.tempId}
                             data-field="ozbeellc__Location__c"
                             onchange={elementChangeHandler}
                             required>
                         </lightning-input>
-                    </td>
-                    <td>
+                    </div>
+                    
                     <!-- Quantity -->
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                         <lightning-input
                             name="ozbeellc__Quantity__c"
-                            label="Quantity"
-                            variant="label-hidden"
+                            label="Quantity *"
                             type="number"
                             data-temp-id={workRow.tempId}
                             data-field="ozbeellc__Quantity__c"
                             onchange={elementChangeHandler}
                             required>
                         </lightning-input>
-                    </td>
-                    <td>
+                    </div>
+                    <!--Man Hours To Reapir-->
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                        <lightning-input
+                            name="ozbeellc__Man_Hours_To_Repair__c"
+                            label="Man Hours To Repair *"
+                            type="number"
+                            data-temp-id={workRow.tempId}
+                            data-field="ozbeellc__Man_Hours_To_Repair__c"
+                            onchange={elementChangeHandler}
+                            required>
+                        </lightning-input>
+                    </div>
+
                     <!-- Deficiency -->
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                         <lightning-record-picker
                             object-api-name="ozbeellc__Deficiency__c"
-                            label="Deficiency"
-                            variant="label-hidden"
+                            label="Deficiency *"
                             display-info={displayInfo}
                             matching-info={matchingInfo}
                             value={workRow.ozbeellc__Deficiency__c}
@@ -73,25 +73,31 @@
                             data-field="ozbeellc__Deficiency__c"
                             required>
                         </lightning-record-picker>
-                    </td>
-                    <td>
+                    </div>
                     <!-- Delete Button -->
+                    <div class="slds-col slds-size_1-of-1 slds-text-align_right slds-m-top_small">
                         <lightning-button-icon
                             icon-name="utility:delete"
                             alternative-text="Delete"
                             data-temp-id={workRow.tempId}
                             onclick={deleteRow}
-                            class="slds-m-left_x-small"
                             title="Delete row">
                         </lightning-button-icon>
-                    </td>
-                </tr>
-            </template>
-            </tbody>
-        </table>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <!-- Add New Work Record Button -->
+        <div class="slds-text-align_right slds-m-bottom_medium">
+            <lightning-button-icon icon-name="utility:add"
+                title="Add New Work Record"
+                onclick={addRow}>
+            </lightning-button-icon>
+        </div>
     </div>
-    <!--FOOTER-->
+
+    <!-- FOOTER -->
     <div class="slds-modal__footer slds-text-align_right">
-   <lightning-button label="Save" variant="brand" onclick={submitClickHandler}></lightning-button>
+        <lightning-button label="Save" variant="brand" onclick={submitClickHandler}></lightning-button>
     </div>
 </template>

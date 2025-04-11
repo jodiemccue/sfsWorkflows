@@ -62,6 +62,7 @@ export default class CreateMultipleWorkRecords extends LightningElement {
                 Type__c: '',
                 ozbeellc__Location__c: '',
                 ozbeellc__Quantity__c: null,
+                Man_Hours_To_Repair__c: null,
                 ozbeellc__Deficiency__c: this.deficiencyId || null
             }
         ];

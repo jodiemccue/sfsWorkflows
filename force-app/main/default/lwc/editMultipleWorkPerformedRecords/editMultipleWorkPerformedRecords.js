@@ -1,48 +1,49 @@
 import { LightningElement, api, track, wire } from 'lwc';
-import { getRecords } from 'lightning/uiRecordApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import getWorkRecordsForWorkOrder from '@salesforce/apex/editMultipleWorkPerformedRecords.getWorkRecordsForWorkOrder';
 import saveWorkPerformedRecords from '@salesforce/apex/editMultipleWorkPerformedRecords.saveWorkPerformedRecords'; // Assuming Apex method to save work records
 
 export default class EditMultipleWorkPerformedRecords extends LightningElement {
+    @api recordId; // This should be the ID of the Work Order
     @track workRecords = [];
-    @api recordIds; // Array of record IDs to be edited
     error;
+    
+    get workOrderId() {
+        return this.recordId;
+    }
 
-    @wire(getRecords, { recordIds: '$recordIds' })
-    wiredRecords({ error, data }) {
-        if (data) {
-            this.workRecords = data.records;
-        } else if (error) {
-            this.error = error;
-            this.showToast('Error', 'Unable to retrieve work records.', 'error');
+    set workOrderId(value) {
+        this.recordId = value;
+        if (value) {
+            this.loadWorkRecords();
         }
     }
 
-    handleUploadFinished(event) {
-        const recordId = event.target.recordId;
-        const uploadedFiles = event.detail.files;
+    connectedCallback() {
+        this.loadWorkRecords();
+    }
 
-        // Logic to associate the uploaded file with the corresponding work record
-        const workRecord = this.workRecords.find(record => record.id === recordId);
-        if (workRecord) {
-            workRecord.imageUrl = uploadedFiles.map(file => file.documentId); // Store image reference
-        }
+    loadWorkRecords() {
+        getWorkRecordsForWorkOrder({ workOrderId: this.recordId })
+            .then(result => {
+                this.workRecords = result;
+            })
+            .catch(error => {
+                this.error = error;
+                this.showToast('Error', 'Unable to retrieve work records.', 'error');
+            });
     }
 
     handleMassUpdate() {
         const updatedRecords = this.workRecords.map(record => ({
-            Id: record.id,
-            Status__c: record.Status__c,
-            Type__c: record.Type__c,
-            ozbeellc__Location__c: record.ozbeellc__Location__c,
-            ozbeellc__Quantity__c: record.ozbeellc__Quantity__c,
-            ozbeellc__Deficiency__c: record.ozbeellc__Deficiency__c,
-            imageUrl: record.imageUrl,
+            Id: record.Id,
+            Status__c: record.Status__c
         }));
 
         saveWorkPerformedRecords({ records: updatedRecords })
-            .then(result => {
+            .then(() => {
                 this.showToast('Success', 'Work records updated successfully!', 'success');
+                this.loadWorkRecords(); // Refresh list after save
             })
             .catch(error => {
                 this.showToast('Error', error.body.message, 'error');
@@ -54,16 +55,11 @@ export default class EditMultipleWorkPerformedRecords extends LightningElement {
     }
 
     showToast(title, message, variant) {
-        const event = new ShowToastEvent({
-            title: title,
-            message: message,
-            variant: variant,
-        });
+        const event = new ShowToastEvent({ title, message, variant });
         this.dispatchEvent(event);
     }
 
     dismiss() {
-        // Logic to close the modal or navigate away
-        window.history.back();
+        window.history.back(); // Close or navigate away
     }
 }

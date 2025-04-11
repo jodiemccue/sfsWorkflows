@@ -2,14 +2,16 @@
     <div class="component-background">
         <lightning-card>
             <div class="slds-m-around_medium">
-                <lightning-layout horizontal-align="spread" class="slds-var-p-horizontal_xx-small">
+
+                <!-- Header Actions -->
+                <lightning-layout horizontal-align="spread" class="slds-var-p-horizontal_xx-small slds-wrap">
                     <lightning-layout-item>
                         <lightning-button variant="base" data-id="cancel" label="Cancel" type="button" onclick={dismiss}
                             class="button"></lightning-button>
                     </lightning-layout-item>
 
-                    <lightning-layout-item data-id="header" class="slds-align_absolute-center">
-                        <h2>Mass Edit Work Records</h2>
+                    <lightning-layout-item class="slds-align_absolute-center slds-p-top_x-small">
+                        <h2 class="slds-text-heading_medium">Update Work Status</h2>
                     </lightning-layout-item>
 
                     <lightning-layout-item>
@@ -19,21 +21,40 @@
                     </lightning-layout-item>
                 </lightning-layout>
 
-                <!-- show any error messages or alerts -->
                 <lightning-messages></lightning-messages>
 
-                <!-- iterate through work records and create edit forms for each -->
+                <!-- Records -->
                 <template for:each={workRecords} for:item="workRecord">
-                    <lightning-record-edit-form key={workRecord.id} object-api-name="Work_Record__c" record-id={workRecord.id} onsuccess={onSuccess}>
-                        <div class="slds-var-p-horizontal_small slds-var-p-bottom_medium">
+                    <lightning-record-edit-form key={workRecord.id}
+                        object-api-name="ozbeellc__Work_Performed__c"
+                        record-id={workRecord.id}
+                        onsuccess={onSuccess}
+                        class="slds-box slds-m-top_medium slds-theme_default">
 
-                            <!-- Work Record Fields -->
-                            <lightning-input-field field-name="	Status__c" value={workRecord.Status__c}></lightning-input-field>
-                            <lightning-input-field field-name="Type__c" value={workRecord.Type__c}></lightning-input-field>
-                            <lightning-input-field field-name="ozbeellc__Location__c" value={workRecord.ozbeellc__Location__c}></lightning-input-field>
-                            <lightning-input-field field-name="ozbeellc__Quantity__c" value={workRecord.ozbeellc__Quantity__c}></lightning-input-field>
-                            <lightning-input-field field-name="ozbeellc__Deficiency__c" value={workRecord.ozbeellc__Deficiency__c}></lightning-input-field>
-                            
+                        <div class="slds-grid slds-wrap slds-gutters">
+
+                            <!-- Editable Status -->
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <lightning-input-field field-name="Status__c" value={workRecord.Status__c}></lightning-input-field>
+                            </div>
+
+                            <!-- Read-only fields using lightning-output-field -->
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <lightning-output-field field-name="Type__c" value={workRecord.Type__c}></lightning-output-field>
+                            </div>
+
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <lightning-output-field field-name="ozbeellc__Location__c" value={workRecord.ozbeellc__Location__c}></lightning-output-field>
+                            </div>
+
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <lightning-output-field field-name="ozbeellc__Quantity__c" value={workRecord.ozbeellc__Quantity__c}></lightning-output-field>
+                            </div>
+
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <lightning-output-field field-name="ozbeellc__Deficiency__c" value={workRecord.ozbeellc__Deficiency__c}></lightning-output-field>
+                            </div>
+
                         </div>
                     </lightning-record-edit-form>
                 </template>
